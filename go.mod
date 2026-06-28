@@ -5,12 +5,12 @@ go 1.26.4
 require (
 	github.com/go-playground/validator/v10 v10.30.3
 	github.com/gofiber/fiber/v3 v3.3.0
+	github.com/jmoiron/sqlx v1.4.0
 	github.com/sirupsen/logrus v1.9.4
 	github.com/spf13/viper v1.21.0
 )
 
 require (
-	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/andybalholm/brotli v1.2.1 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.13 // indirect

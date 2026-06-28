@@ -1,13 +1,13 @@
 package bootstrap
 
 import (
-	"database/sql"
 	"fmt"
 
+	"github.com/jmoiron/sqlx"
 	"github.com/spf13/viper"
 )
 
-func NewSQLDB(config *viper.Viper) *sql.DB {
+func NewSQLDB(config *viper.Viper) *sqlx.DB {
 	driver := config.GetString("database.driver")
 
 	var dsn string
@@ -28,7 +28,7 @@ func NewSQLDB(config *viper.Viper) *sql.DB {
 		}
 	}
 
-	db, err := sql.Open(driver, dsn)
+	db, err := sqlx.Open(driver, dsn)
 	if err != nil {
 		panic(fmt.Errorf("database connect error:\n%v", err))
 	}

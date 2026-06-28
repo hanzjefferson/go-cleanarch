@@ -1,21 +1,21 @@
 package bootstrap
 
 import (
-	"database/sql"
 	"fmt"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
+	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
 type Bootstrap struct {
 	Config    *viper.Viper
-	Log       *logrus.Entry
+	Log       *logrus.Logger
 	Validator *validator.Validate
 	Fiber     *fiber.App
-	SQL       *sql.DB
+	SQL       *sqlx.DB
 }
 
 func (b *Bootstrap) Boot() {
