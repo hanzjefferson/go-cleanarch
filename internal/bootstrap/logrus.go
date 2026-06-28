@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func NewLogrus(config *viper.Viper) *logrus.Entry {
+func NewLogrus(config *viper.Viper) *logrus.Logger {
 	l := logrus.New()
 
 	if (config.GetBool("app.debug")) {
@@ -16,5 +16,5 @@ func NewLogrus(config *viper.Viper) *logrus.Entry {
 		FullTimestamp: true,
 	})
 
-	return logrus.NewEntry(l)
+	return l
 }
