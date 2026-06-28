@@ -3,6 +3,7 @@ package bootstrap
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 	"github.com/spf13/viper"
 )
 
@@ -24,5 +25,8 @@ func NewFiber(validate *validator.Validate, config *viper.Viper) *fiber.App {
 	}
 
 	app := fiber.New(appConfig)
+
+	app.Use(logger.New())
+
 	return app
 }

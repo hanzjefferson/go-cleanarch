@@ -9,11 +9,13 @@ func main() {
 	logrus := bootstrap.NewLogrus(viper)
 	validator := bootstrap.NewValidator()
 	fiber := bootstrap.NewFiber(validator, viper)
+	sql := bootstrap.NewSQLDB(viper)
 
 	b := bootstrap.Bootstrap{
-		Viper:  viper,
-		Logrus: logrus,
+		Config:  viper,
+		Log: logrus,
 		Fiber:  fiber,
+		SQL: sql,
 	}
 	b.Boot()
 }

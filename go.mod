@@ -10,11 +10,13 @@ require (
 )
 
 require (
+	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/andybalholm/brotli v1.2.1 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.13 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
+	github.com/go-sql-driver/mysql v1.10.0 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/gofiber/schema v1.7.1 // indirect
 	github.com/gofiber/utils/v2 v2.0.6 // indirect
@@ -23,6 +25,7 @@ require (
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.22 // indirect
+	github.com/mattn/go-sqlite3 v1.14.47 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/sagikazarmark/locafero v0.11.0 // indirect
