@@ -4,18 +4,24 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
-	"maps"
 	"os"
-	"slices"
 
 	"github.com/hanzjefferson/go-cleanarch/internal/bootstrap"
 )
 
+var generatedSecretKeys = []string{
+	"jwt",
+}
+
 func main(){
+	if len(generatedSecretKeys) == 0 && len(os.Args) < 2 {
+		fmt.Printf("there are no secrets that need to be generated.")
+	}
+
 	viper := bootstrap.NewViper()
 	logrus := bootstrap.NewLogrus(viper)
 
-	keys := slices.Collect(maps.Keys(viper.GetStringMap("app.secret")))
+	keys := generatedSecretKeys
 	if len(os.Args) > 1 {
 		keys = os.Args[1:]
 	}
