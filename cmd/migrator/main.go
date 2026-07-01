@@ -1,8 +1,8 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 
@@ -29,17 +29,17 @@ func usage() {
 	os.Exit(1)
 }
 
-func parseVersion() int64 {
+func parseVersion() (int64, error) {
 	if len(os.Args) < 3 {
-		log.Fatal("missing migration version")
+		return -1, errors.New("missing migration version")
 	}
 
 	version, err := strconv.ParseInt(os.Args[2], 10, 64)
 	if err != nil {
-		log.Fatalf("invalid version: %v", err)
+		return -1, err
 	}
 
-	return version
+	return version, err
 }
 
 func main() {
@@ -48,11 +48,12 @@ func main() {
 	}
 
 	viper := bootstrap.NewViper()
+	logrus := bootstrap.NewLogrus(viper)
 	sql := bootstrap.NewSQLDB(viper).DB
 	defer sql.Close()
 
 	if err := goose.SetDialect(viper.GetString("database.driver")); err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 
 	var err error
@@ -64,13 +65,21 @@ func main() {
 		err = goose.UpByOne(sql, migrationDir)
 
 	case "up-to":
-		err = goose.UpTo(sql, migrationDir, parseVersion())
+		ver, err := parseVersion();
+		if err != nil {
+			logrus.Fatal(err)
+		}
+		err = goose.UpTo(sql, migrationDir, ver)
 
 	case "down":
 		err = goose.Down(sql, migrationDir)
 
 	case "down-to":
-		err = goose.DownTo(sql, migrationDir, parseVersion())
+		ver, err := parseVersion();
+		if err != nil {
+			logrus.Fatal(err)
+		}
+		err = goose.DownTo(sql, migrationDir, ver)
 
 	case "redo":
 		err = goose.Redo(sql, migrationDir)
@@ -80,12 +89,12 @@ func main() {
 
 	case "create":
 		if len(os.Args) < 3 {
-			log.Fatal("missing migration name")
+			logrus.Fatal("missing migration name")
 		}
 
 		migrationType := "sql"
 		if err := goose.Create(nil, migrationDir, os.Args[2], migrationType); err != nil {
-			log.Fatal(err)
+			logrus.Fatal(err)
 		}
 
 		fmt.Println("Migration created.")
@@ -97,7 +106,7 @@ func main() {
 	case "version":
 		version, err := goose.GetDBVersion(sql)
 		if err != nil {
-			log.Fatal(err)
+			logrus.Fatal(err)
 		}
 		fmt.Println(version)
 		return
@@ -107,6 +116,6 @@ func main() {
 	}
 
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 }
