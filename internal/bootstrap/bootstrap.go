@@ -24,7 +24,7 @@ type Bootstrap struct {
 	JWT       *jwt.Provider
 }
 
-func (b *Bootstrap) Boot() {
+func (b *Bootstrap) Booting() error {
 	userRepo := repository.NewUserRepo(b.SQL)
 
 	authUc := usecase.NewAuthUseCase(b.Log, b.JWT, userRepo)
@@ -34,6 +34,25 @@ func (b *Bootstrap) Boot() {
 	}
 
 	b.Fiber.Route("api", httpRouter.SetupRouter)
+	return nil
+}
+
+func (b *Bootstrap) Boot() {
+	debug := b.Config.GetBool("app.debug")
+
+	for k, v := range b.Config.GetStringMapString("app.secret") {
+		if v == "" {
+			if debug {
+				b.Log.Warnf("secret with key 'app.secret.%s' is empty!", k)
+			} else {
+				b.Log.Fatalf("secret with key 'app.secret.%s' is empty!", k)
+			}
+		}
+	}
+
+	if err := b.Booting(); err != nil {
+		b.Log.Fatalf("boot failed: %+v", err)
+	}
 
 	addr := fmt.Sprintf("%s:%d",
 		b.Config.GetString("server.host"),
