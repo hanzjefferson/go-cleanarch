@@ -32,7 +32,6 @@ func NewSQLDB(config *viper.Viper) *sqlx.DB {
 	if err != nil {
 		panic(fmt.Errorf("database connect error:\n%v", err))
 	}
-	defer db.Close()
 
 	return db
 }
