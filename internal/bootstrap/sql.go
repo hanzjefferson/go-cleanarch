@@ -9,7 +9,7 @@ import (
 )
 
 func NewSQLDB(config *viper.Viper) *sqlx.DB {
-	driver := "mysql"
+	driver := config.GetString("database.driver")
 
 	var dsn string
 	if config.IsSet("database.dsn") {
