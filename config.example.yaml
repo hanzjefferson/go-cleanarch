@@ -1,0 +1,27 @@
+app:
+    debug: true
+    name: go-application
+    secret:
+        # Generated secrets (run: go run cmd/keygen/main.go)
+        # To add more auto-generated secrets, add keys to generatedSecretKeys in cmd/keygen/main.go
+        jwt: 
+        # Manual secrets (add your own)
+        # Example:
+        # gpt_api_key: sk-xxxxx
+        # stripe_secret: sk_live_xxxxx
+
+database:
+    driver: mysql # mysql or sqlite3
+    # Connection option 1: DSN (data source name)
+    # dsn: username:password@tcp(localhost:3306)/database_name
+    
+    # Connection option 2: Individual fields
+    host: localhost
+    port: 3306
+    username: root
+    password: 
+    name: 
+
+server:
+    host: localhost
+    port: 3000
