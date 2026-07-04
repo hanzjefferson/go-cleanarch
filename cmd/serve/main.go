@@ -18,6 +18,7 @@ func main() {
 		Fiber:  fiber,
 		SQL: sql,
 		JWT: jwt,
+		Validator: validator,
 	}
 	b.Boot()
 }
